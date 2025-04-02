@@ -15,7 +15,7 @@ double heronArea(const Triangle &t) {
     double c = distance(t.C, t.A);
     double s = (a + b + c) / 2;
     return sqrt(s * (s - a) * (s - b) * (s - c));
-}
+} //площа за героном
 
 double Triangle::area() const {
     return heronArea(*this);
@@ -26,7 +26,7 @@ bool Triangle::onborder(const Point &P) const {
         (P.x == B.x && P.y == B.y) || 
         (P.x == C.x && P.y == C.y)) {
         return true;
-    }
+    } //перевірка чи з вершиною співпадає
 
     auto onSegment = [](const Point &a, const Point &b, const Point &p) {
         double area = 0.5 * fabs((b.x - a.x) * (p.y - a.y) - (b.y - a.y) * (p.x - a.x));
@@ -35,7 +35,7 @@ bool Triangle::onborder(const Point &P) const {
     };
 
     return onSegment(A, B, P) || onSegment(B, C, P) || onSegment(C, A, P);
-}
+}//перевірка, чи точка лежить на відрізку між двома точками 
 
 bool Triangle::heron(const Point &P) const {
     Triangle T1 = {A, B, P};
@@ -46,7 +46,8 @@ bool Triangle::heron(const Point &P) const {
     double S_sum = T1.area() + T2.area() + T3.area();
     
     return fabs(S_main - S_sum) < 1e-9;
-}
+}//перевірка, чи точка P належить трикутнику за героном
+
 bool Triangle::vector(const Point &P) const {
     auto cross = [](const Point &a, const Point &b, const Point &c) {
         return (b.x - a.x) * (c.y - a.y) - (b.y - a.y) * (c.x - a.x);
@@ -57,10 +58,11 @@ bool Triangle::vector(const Point &P) const {
     double d3 = cross(C, A, P);
 
     bool has_neg = (d1 < 0) || (d2 < 0) || (d3 < 0);
-    bool has_pos = (d1 > 0) || (d2 > 0) || (d3 > 0);
+    bool has_pos = (d1 > 0) || (d2 > 0) || (d3 > 0); //перевірка, чи векторні добутки мають однакові знаки
     
-    return !(has_neg && has_pos);
+    return !(has_neg && has_pos); //якщо векторні добутки мають різні знаки, точка знаходиться поза трикутником
 }
+
 bool Triangle::contains(const Point &P, int method) const {
     if (method == 1) {
         return heron(P);
