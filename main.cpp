@@ -22,8 +22,11 @@ int main() {
     }
 
     cout << "Vvedit kilkist tochok dlya perevirky:\n";
-    cin >> n;
-
+    while (cin >> n && n <= 0) {
+        cout << "Pomylka! Vvedit dodatne tsile chyslo:\n";
+    }
+    
+    
 
     cout << "Vvedit koordinaty " << n << " tochok:\n";
     for (int i = 0; i < n; ++i) {
